@@ -8,7 +8,7 @@ blocks:
   - name: "build copybara"
     dependencies: []
     run:
-      when: "branch = 'master' or (branch != 'main' and change_in(['.semaphore'], {default_branch: 'main'}))"
+      when: "branch = 'master' or (branch != 'master' and change_in(['.semaphore'], {default_branch: 'master'}))"
     task:
       secrets:
         - name: gcp-replit-ai
