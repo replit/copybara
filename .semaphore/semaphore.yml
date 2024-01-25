@@ -22,6 +22,5 @@ blocks:
             - gcloud auth configure-docker us-central1-docker.pkg.dev --quiet
             - checkout
             - docker build . -t copybara
-            - docker tag copybara us-central1-docker.pkg.dev/replit-ai/copybara/copybara:"$SEMAPHORE_GIT_SHA"
-            - docker tag copybara us-central1-docker.pkg.dev/replit-ai/copybara/copybara:latest
-            - docker push us-central1-docker.pkg.dev/replit-ai/copybara/copybara:"$SEMAPHORE_GIT_SHA"
+            - docker tag copybara us-central1-docker.pkg.dev/replit-ai/ai-docker/copybara:"$SEMAPHORE_GIT_SHA"
+            - docker push us-central1-docker.pkg.dev/replit-ai/ai-docker/copybara:"$SEMAPHORE_GIT_SHA"
