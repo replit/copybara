@@ -1,0 +1,27 @@
+version: v1.0
+name: copybara
+agent:
+  machine:
+    type: e1-standard-2
+    os_image: ubuntu2004
+blocks:
+  - name: "build copybara"
+    dependencies: []
+    run:
+      when: "branch = 'master' or (branch != 'main' and change_in(['.semaphore'], {default_branch: 'main'}))"
+    task:
+      secrets:
+        - name: gcp-replit-ai
+      env_vars:
+        - name: BUILDKIT_PROGRESS
+          value: plain
+      jobs:
+        - name: build
+          commands:
+            - gcloud auth activate-service-account --key-file=.secrets.prod.gcp.json
+            - gcloud auth configure-docker us-central1-docker.pkg.dev --quiet
+            - checkout
+            - docker build . -t copybara
+            - docker tag copybara us-central1-docker.pkg.dev/replit-ai/copybara/copybara:"$SEMAPHORE_GIT_SHA"
+            - docker tag copybara us-central1-docker.pkg.dev/replit-ai/copybara/copybara:latest
+            - docker push us-central1-docker.pkg.dev/replit-ai/copybara/copybara:"$SEMAPHORE_GIT_SHA"
